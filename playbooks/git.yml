@@ -1,0 +1,9 @@
+---
+
+- apt: name=git state=latest
+  become: true
+
+- name: Git is configured
+  shell: git config --global user.email "s.fomin@betsol.ru"
+
+- shell: git config --global user.name "Slava Fomin II"

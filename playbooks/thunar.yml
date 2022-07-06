@@ -1,0 +1,6 @@
+---
+- shell: scripts/configure-thunar.sh
+- lineinfile: dest='~/.config/gtk-3.0/bookmarks' line='file://{{ item }}' create=yes
+  with_items:
+    - /home/{{ ansible_user_id }}/Downloads
+    - /home/{{ ansible_user_id }}/Dropbox

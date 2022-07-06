@@ -1,0 +1,23 @@
+---
+- stat: path=~/.config/xfce4/xfconf/xfce-perchannel-xml/keyboards.xml
+  register: file
+- xml:
+    file: ~/.config/xfce4/xfconf/xfce-perchannel-xml/keyboards.xml
+    xpath: /channel[@name="keyboards"]//property[@name="{{ item.key }}"]
+    attribute: value
+    value: "{{ item.value }}"
+  with_dict:
+    Delay: 250
+    Rate: 30
+  when: file.stat.exists
+
+- stat: path=~/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-keyboard-shortcuts.xml
+  register: file
+- xml:
+    file: ~/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-keyboard-shortcuts.xml
+    xpath: /channel[@name="xfce4-keyboard-shortcuts"]//property[@value="{{ item.key }}"]
+    attribute: name
+    value: "{{ item.value }}"
+  with_dict:
+    show_desktop_key: '&lt;Super&gt;d'
+  when: file.stat.exists

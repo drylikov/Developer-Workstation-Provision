@@ -1,0 +1,5 @@
+---
+
+- shell: nohup scripts/install-dropbox.sh &
+  args:
+    creates: ~/.dropbox-dist

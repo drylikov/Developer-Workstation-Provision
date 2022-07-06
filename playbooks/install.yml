@@ -1,0 +1,53 @@
+---
+
+- hosts: localhost
+  remote_user: sfomin
+
+  roles:
+    - { role: cmprescott.xml }
+  
+  tasks:
+
+    - name: Software is up to date
+      apt: upgrade=full update_cache=yes
+      become: true
+
+    - name: Google Chrome is installed
+      shell: scripts/install-chrome.sh
+      become: true
+      args:
+        creates: /usr/bin/google-chrome
+
+    - name: Dropbox installed
+      shell: nohup scripts/install-dropbox.sh &
+      args:
+        creates: ~/.dropbox-dist
+
+    - name: Packages are installed
+      apt: name={{ item }} state=latest
+      with_items:
+        - keepass2
+        - xdotool
+        - xfce4-clipman-plugin
+        - vlc
+        - guake
+        - postgresql
+        - nginx
+        - gimp
+        - rar
+        - unrar
+        - inkscape
+      become: true
+
+    - name: Git is installed
+      include: git.yml
+
+    - name: Thunar is configured
+      include: thunar.yml
+
+    - name: Keyboard is configured
+      include: keyboard.yml
+
+    - name: Java is installed
+      include: java.yml
+      become: true
